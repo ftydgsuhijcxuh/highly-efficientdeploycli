@@ -1,17 +1,20 @@
-function sortedListToBST(head) {
-  if (!head) return null;
-  if (!head.next) return new TreeNode(head.val);
-  let slow = head;
-  let fast = head;
-  let prev = null;
-  while (fast && fast.next) {
-    prev = slow;
-    slow = slow.next;
-    fast = fast.next.next;
+function longestPalindrome(s) {
+  let longest = "";
+  for (let i = 0; i < s.length; i++) {
+    const oddPalindrome = expandAroundCenter(s, i, i);
+    const evenPalindrome = expandAroundCenter(s, i, i + 1);
+    const currentLongest =
+      oddPalindrome.length > evenPalindrome.length
+        ? oddPalindrome
+        : evenPalindrome;
+    if (currentLongest.length > longest.length) longest = currentLongest;
   }
-  const root = new TreeNode(slow.val);
-  prev.next = null;
-  root.left = sortedListToBST(head);
-  root.right = sortedListToBST(slow.next);
-  return root;
+  return longest;
+}
+function expandAroundCenter(s, left, right) {
+  while (left >= 0 && right < s.length && s[left] === s[right]) {
+    left--;
+    right++;
+  }
+  return s.slice(left + 1, right);
 }
