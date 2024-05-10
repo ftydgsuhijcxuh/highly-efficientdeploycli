@@ -1,20 +1,14 @@
-function longestPalindrome(s) {
-  let longest = "";
-  for (let i = 0; i < s.length; i++) {
-    const oddPalindrome = expandAroundCenter(s, i, i);
-    const evenPalindrome = expandAroundCenter(s, i, i + 1);
-    const currentLongest =
-      oddPalindrome.length > evenPalindrome.length
-        ? oddPalindrome
-        : evenPalindrome;
-    if (currentLongest.length > longest.length) longest = currentLongest;
+function findRedundantConnection(edges) {
+  const parent = new Array(edges.length + 1).fill(-1);
+  for (const edge of edges) {
+    const u = find(parent, edge[0]);
+    const v = find(parent, edge[1]);
+    if (u === v) return edge;
+    parent[u] = v;
   }
-  return longest;
+  return [];
 }
-function expandAroundCenter(s, left, right) {
-  while (left >= 0 && right < s.length && s[left] === s[right]) {
-    left--;
-    right++;
-  }
-  return s.slice(left + 1, right);
+function find(parent, i) {
+  if (parent[i] === -1) return i;
+  return find(parent, parent[i]);
 }
