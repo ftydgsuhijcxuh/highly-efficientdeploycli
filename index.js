@@ -1,14 +1,7 @@
-const shellSort = (arr) => {
-  const n = arr.length;
-  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
-    for (let i = gap; i < n; i++) {
-      const temp = arr[i];
-      let j;
-      for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-        arr[j] = arr[j - gap];
-      }
-      arr[j] = temp;
-    }
+function countBits(num) {
+  const result = new Array(num + 1).fill(0);
+  for (let i = 1; i <= num; i++) {
+    result[i] = result[i >> 1] + (i & 1);
   }
-  return arr;
-};
+  return result;
+}
